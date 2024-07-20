@@ -57,19 +57,16 @@ Kullanıcı arayüzü, Tkinter kullanılarak oluşturulmuş olup, aşağıdaki b
 - **Mesaj Kutuları**: Kullanıcıya işlem sonuçlarını göstermek için.
 
 ### Sınıflar
-
-
-
 ### `Item` Sınıfı
-    ```python
-    class Item:
-      def __init__(self, name, quantity, price):
+
+`class Item:
+    def __init__(self, name, quantity, price):
         self.name = name
         self.quantity = quantity
         self.price = price
 
-      def __str__(self):
-        return f"{self.name}: {self.quantity} adet, {self.price:.2f} TL"
+    def __str__(self):
+        return f"{self.name}: {self.quantity} adet, {self.price:.2f} TL"`
 
 -   **`Item` Sınıfı:** Envanterdeki her bir öğeyi temsil eder.
     -   **`__init__` Metodu:** Öğenin adını (`name`), miktarını (`quantity`) ve fiyatını (`price`) alır ve bu değerleri ilgili özelliklere (`attributes`) atar.
@@ -77,36 +74,35 @@ Kullanıcı arayüzü, Tkinter kullanılarak oluşturulmuş olup, aşağıdaki b
 
 ### `Inventory` Sınıfı
 
-    ```python
-    class Inventory:
-      def __init__(self):
+`class Inventory:
+    def __init__(self):
         self.items = {}
 
-      def add_item(self, name, quantity, price):
+    def add_item(self, name, quantity, price):
         if name in self.items:
             self.items[name].quantity += quantity
         else:
             self.items[name] = Item(name, quantity, price)
 
-      def update_item(self, name, quantity, price):
+    def update_item(self, name, quantity, price):
         if name in self.items:
             self.items[name].quantity = quantity
             self.items[name].price = price
         else:
             messagebox.showerror("Hata", f"Item '{name}' envanterde bulunamadı.")
 
-      def remove_item(self, name):
+    def remove_item(self, name):
         if name in self.items:
             del self.items[name]
         else:
             messagebox.showerror("Hata", f"Item '{name}' envanterde bulunamadı.")
 
-      def list_items(self):
+    def list_items(self):
         items_str = "\n".join(str(item) for item in self.items.values())
         if items_str:
             messagebox.showinfo("Envanter", items_str)
         else:
-            messagebox.showinfo("Envanter", "Envanter boş.")
+            messagebox.showinfo("Envanter", "Envanter boş.")`
 
 -   **`Inventory` Sınıfı:** Envanterdeki öğeleri yönetir (ekleme, güncelleme, kaldırma ve listeleme).
     -   **`__init__` Metodu:** Envanterdeki öğeleri saklamak için bir sözlük (`self.items`) oluşturur.
@@ -116,9 +112,9 @@ Kullanıcı arayüzü, Tkinter kullanılarak oluşturulmuş olup, aşağıdaki b
     -   **`list_items` Metodu:** Tüm öğeleri listeler ve bir mesaj kutusunda gösterir.
 
 ### `InventoryApp` Sınıfı
-    ```python
-    class InventoryApp:
-      def __init__(self, root):
+
+`class InventoryApp:
+    def __init__(self, root):
         self.inventory = Inventory()
         self.root = root
         self.root.title("Envanter Yönetim Sistemi")
@@ -159,7 +155,7 @@ Kullanıcı arayüzü, Tkinter kullanılarak oluşturulmuş olup, aşağıdaki b
         self.list_button = ttk.Button(root, text="Envanteri Listele", command=self.list_items)
         self.list_button.grid(row=4, column=1, padx=10, pady=10, sticky="EW")
 
-       def resize_window(event):
+        def resize_window(event):
             width = event.width
             height = event.height
             self.root.geometry(f"{width}x{height}")
@@ -169,27 +165,27 @@ Kullanıcı arayüzü, Tkinter kullanılarak oluşturulmuş olup, aşağıdaki b
         for i in range(5):
             self.root.rowconfigure(i, weight=1)
 
-        def add_item(self):
+    def add_item(self):
         name = self.name_entry.get()
         quantity = int(self.quantity_entry.get())
         price = float(self.price_entry.get())
         self.inventory.add_item(name, quantity, price)
         messagebox.showinfo("Başarılı", f"{name} eklendi.")
 
-      def update_item(self):
+    def update_item(self):
         name = self.name_entry.get()
         quantity = int(self.quantity_entry.get())
         price = float(self.price_entry.get())
         self.inventory.update_item(name, quantity, price)
         messagebox.showinfo("Başarılı", f"{name} güncellendi.")
 
-      def remove_item(self):
+    def remove_item(self):
         name = self.name_entry.get()
         self.inventory.remove_item(name)
         messagebox.showinfo("Başarılı", f"{name} kaldırıldı.")
 
-      def list_items(self):
-        self.inventory.list_items()
+    def list_items(self):
+        self.inventory.list_items()`
 
 -   **`InventoryApp` Sınıfı:** Tkinter kullanarak envanter yönetim sistemi için GUI oluşturur.
     -   **`__init__` Metodu:** Arayüz öğelerini (label, entry, button) oluşturur ve düzenler. Ayrıca pencere boyutunu dinamik olarak ayarlayan bir fonksiyon tanımlar.
@@ -199,16 +195,17 @@ Kullanıcı arayüzü, Tkinter kullanılarak oluşturulmuş olup, aşağıdaki b
     -   **`list_items` Metodu:** Tüm öğeleri listeler ve bir mesaj kutusunda gösterir.
 
 ### Ana Program
-    ```python
-    if __name__ == "__main__":
-      root = tk.Tk()
-      app = InventoryApp(root)
-      root.mainloop()
+
+`if __name__ == "__main__":
+    root = tk.Tk()
+    app = InventoryApp(root)
+    root.mainloop()`
 
 -   **Ana Program Bölümü:**
     -   `root` adlı Tkinter ana penceresi oluşturulur.
     -   `InventoryApp` sınıfından bir nesne (`app`) oluşturulur ve `root` ana penceresi bu sınıfa geçirilir.
     -   `root.mainloop()` fonksiyonu, Tkinter pencere döngüsünü başlatır ve arayüzün kullanıcı etkileşimlerine tepki vermesini sağlar.
+      
       
 ## Kullanım Talimatları
 --------------------------
